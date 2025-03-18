@@ -112,26 +112,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
         
         const prompt = `
-        Generate a complete academic course syllabus in markdown format for the following course:
-        
-        Course Name: ${courseName}
-        Course Code: ${courseCode}
-        Course Description: ${courseDescription}
-        ${referenceContent ? `Reference Content: ${referenceContent}` : ''}
-        
-        The syllabus should include:
-        1. Course Information (name, code, credits, semester)
-        2. Instructor Information (use placeholder info)
-        3. Course Description
-        4. Course Objectives/Learning Outcomes
-        5. Required Materials and Texts
-        6. Course Schedule (detailed weekly breakdown)
-        7. Grading Criteria and Assessment Methods
-        8. Course Policies (attendance, late work, etc.)
-        9. Academic Integrity Statement
-        10. Accommodation and Accessibility Statement
-        
-        Format the syllabus in clean markdown that will paste nicely into Microsoft Word. Use appropriate headings, lists, and formatting.
+       Generate a comprehensive academic course syllabus in markdown format for the following course:
+
+Course Name: ${courseName}
+Course Code: ${courseCode}
+Course Description: ${courseDescription}
+Duration: ${weeksDuration}
+${referenceContent ? `Reference Content: ${referenceContent}` : ''}
+
+The syllabus should include:
+1. Course Information (name, code, credits, semester)
+2. Instructor Information (use placeholder info)
+3. Course Description
+4. Course Objectives/Learning Outcomes
+5. Required Materials and Texts (if reference content is minimal [<50 words], generate appropriate scholarly textbooks, academic papers, and case studies that would enhance this course)
+6. Course Schedule (detailed weekly breakdown based on number of weeks duration input by user)
+7. Assessment Components (include diverse modern evaluation methods such as projects, presentations, participation AND a final examination worth 25-30% of the grade)
+8. Course Policies (attendance, late work, etc.)
+9. Academic Integrity Statement
+10. Accommodation and Accessibility Statement
+
+If reference content is limited, develop a rich, pedagogically sound curriculum that reflects current academic standards in this field.
+
+Use these specific formatting guidelines:
+- Main title: Use a single # (H1) followed by the course name and code
+- Section headings: Use ## (H2) for all major sections
+- Subsection headings: Use ### (H3) for subsections
+- Text formatting: Use **bold** for important terms and policies, *italics* for emphasis
+- Lists: Use - for unordered lists and 1. for ordered lists with consistent indentation
+- Tables: Use standard markdown tables with | delimiters for all tabular content
+- Course schedule: Present as a markdown table with columns for Week, Topic, Readings, and Assignments
+- Important notices: Highlight with > blockquotes for emphasis
+- Links: Use [text](URL) format for any external resources
+- Use --- for horizontal rules between major sections
+
+Include notes at the beginning indicating which elements could be colored when formatted in Word (e.g., "Heading 1 could be formatted in dark blue, Heading 2 in medium blue"). Format the syllabus in clean, consistent markdown that will paste into Microsoft Word and be easily formatted with Word's built-in styling tools.
         `;
         
         const requestBody = {
