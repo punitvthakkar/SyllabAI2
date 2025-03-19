@@ -124,15 +124,15 @@ The syllabus should include:
 1. Course Information (name, code, credits, semester)
 2. Instructor Information (use placeholder info)
 3. Course Description
-4. Course Objectives/Learning Outcomes
-5. Required Materials and Texts (if reference content is minimal [<50 words], generate appropriate scholarly textbooks, academic papers, and case studies that would enhance this course)
-6. Course Schedule (detailed weekly breakdown based on number of weeks duration input by user)
-7. Assessment Components (include diverse modern evaluation methods such as projects, presentations, participation AND a final examination worth 25-30% of the grade)
-8. Course Policies (attendance, late work, etc.)
+4. Course Objectives/Learning Outcomes - be articulate and clear in this, give output here that stimulates a student's mind and makes them  excited about the course.
+5. Required Materials and Texts (if reference content is minimal [<100 words], generate appropriate scholarly textbooks, academic papers, and case studies that would enhance this course)
+6. Course Schedule (detailed weekly breakdown based on number of weeks duration input by user) - give more color and guidance here rather than just rewriting the academic material name. STructure it for optimum impact.
+7. Assessment Components (include diverse modern evaluation methods such as projects, presentations, case studies, participation AND a final examination worth 25-30% of the grade)
+8. Course Policies (attendance, late work, etc.) - keep it reasonable
 9. Academic Integrity Statement
 10. Accommodation and Accessibility Statement
 
-If reference content is limited, develop a rich, pedagogically sound curriculum that reflects current academic standards in this field.
+If reference content is limited, develop a rich, pedagogically sound curriculum that reflects current academic standards in this field. Be inventive and smart, give high quality input to this.
 
 Use these specific formatting guidelines:
 - Main title: Use a single # (H1) followed by the course name and code
@@ -146,7 +146,7 @@ Use these specific formatting guidelines:
 - Links: Use [text](URL) format for any external resources
 - Use --- for horizontal rules between major sections
 
-Include notes at the beginning indicating which elements could be colored when formatted in Word (e.g., "Heading 1 could be formatted in dark blue, Heading 2 in medium blue"). Format the syllabus in clean, consistent markdown that will paste into Microsoft Word and be easily formatted with Word's built-in styling tools.
+Include notes at the beginning indicating which elements could be colored when formatted in Word (e.g., "Heading 1 could be formatted in dark blue, Heading 2 in medium blue"). Format the syllabus in clean, consistent markdown that will paste into Microsoft Word and be easily formatted with Word's built-in styling tools. Write it in within 600 words.
         `;
         
         const requestBody = {
@@ -158,7 +158,7 @@ Include notes at the beginning indicating which elements could be colored when f
                 }
             ],
             generationConfig: {
-                temperature: 0.2,
+                temperature: 0.7,
                 maxOutputTokens: 8192,
             }
         };
