@@ -178,12 +178,18 @@ Include standard but detailed sections on:
 - Participation expectations
 - Accommodation and accessibility
 
-Format the entire syllabus with clean, professional markdown:
-- Use # for main title, ## for sections, ### for subsections
-- Use bold (**text**) for important terms and policies
-- Use tables for structured information (evaluation, schedule)
-- Use consistent indentation for lists
-- Include page breaks (---) between major sections
+Use these specific formatting guidelines:
+- Main title: Use a single # (H1) followed by the course name and code
+- Section headings: Use ## (H2) for all major sections
+- Subsection headings: Use ### (H3) for subsections
+- Text formatting: Use bold for important terms and policies, italics for emphasis
+- Lists: Use - for unordered lists and 1. for ordered lists with consistent indentation
+- Tables: Use standard markdown tables with | delimiters for all tabular content
+- Course schedule: Present as a markdown table with columns for Week, Topic, Readings, and Assignments
+- Important notices: Highlight with > blockquotes for emphasis
+- Links: Use [text](URL) format for any external resources
+- Use --- for horizontal rules between major sections
+Include notes at the beginning indicating which elements could be colored when formatted in Word (e.g., "Heading 1 could be formatted in dark blue, Heading 2 in medium blue"). Format the syllabus in clean, consistent markdown that will paste into Microsoft Word and be easily formatted with Word's built-in styling tools. 
 
 The final syllabus should be comprehensive (approximately 2,500-3,500 words), academically rigorous, and follow the patterns seen in exemplary business school syllabi.
         `;
