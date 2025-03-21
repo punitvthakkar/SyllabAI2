@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
         
         const prompt = `
-       Generate a comprehensive academic course syllabus in markdown format for the following course:
+        Generate a comprehensive academic course syllabus in PDF-ready markdown format for:
 
 Course Name: ${courseName}
 Course Code: ${courseCode}
@@ -120,33 +120,72 @@ Course Description: ${courseDescription}
 Duration: ${weeksDuration}
 ${referenceContent ? `Reference Content: ${referenceContent}` : ''}
 
-The syllabus should include:
-1. Course Information (name, code, credits, semester)
-2. Instructor Information (use placeholder info)
-3. Course Description
-4. Course Objectives/Learning Outcomes - be articulate and clear in this, give output here that stimulates a student's mind and makes them  excited about the course.
-5. Required Materials and Texts (if reference content is minimal [<100 words], generate appropriate scholarly textbooks, academic papers, and case studies that would enhance this course)
-6. Course Schedule (detailed weekly breakdown based on number of weeks duration input by user) - give more color and guidance here rather than just rewriting the academic material name. STructure it for optimum impact.
-7. Assessment Components (include diverse modern evaluation methods such as projects, presentations, case studies, participation AND a final examination worth 25-30% of the grade)
-8. Course Policies (attendance, late work, etc.) - keep it reasonable
-9. Academic Integrity Statement
-10. Accommodation and Accessibility Statement
+Structure your syllabus following the ESMT MBA program format with these specific required elements:
 
-If reference content is limited, develop a rich, pedagogically sound curriculum that reflects current academic standards in this field. Be inventive and smart, give high quality input to this.
+# ${courseName}
+${courseCode}
 
-Use these specific formatting guidelines:
-- Main title: Use a single # (H1) followed by the course name and code
-- Section headings: Use ## (H2) for all major sections
-- Subsection headings: Use ### (H3) for subsections
-- Text formatting: Use **bold** for important terms and policies, *italics* for emphasis
-- Lists: Use - for unordered lists and 1. for ordered lists with consistent indentation
-- Tables: Use standard markdown tables with | delimiters for all tabular content
-- Course schedule: Present as a markdown table with columns for Week, Topic, Readings, and Assignments
-- Important notices: Highlight with > blockquotes for emphasis
-- Links: Use [text](URL) format for any external resources
-- Use --- for horizontal rules between major sections
+[Instructor Name]
+[instructor.email@institution.edu]
 
-Include notes at the beginning indicating which elements could be colored when formatted in Word (e.g., "Heading 1 could be formatted in dark blue, Heading 2 in medium blue"). Format the syllabus in clean, consistent markdown that will paste into Microsoft Word and be easily formatted with Word's built-in styling tools. Write it in within 600 words.
+**Pre-requisite to this course:** [specify or indicate "none"]
+**This course is a pre-requisite for:** [specify or indicate "none"]
+
+## Purpose of the course
+Expand the provided course description into a compelling 2-3 paragraph introduction that explains why this course matters and how it connects to broader academic/professional contexts. Use an engaging opening quote if appropriate.
+
+## Competencies developed
+List 5-7 specific learning objectives using action verbs (analyze, evaluate, create, etc.) that clearly state what students will be able to do upon completing the course. Format as bullet points with clear, measurable outcomes.
+
+## Content
+Provide a detailed 2-3 paragraph overview of the course content, organized into logical themes or modules. Explain how the content builds progressively and connects to the competencies.
+
+## Teaching methods
+Detail the pedagogical approaches used in the course (lectures, case discussions, simulations, group work, etc.) with approximate time allocations. Specify any special tools, software, or platforms students will need to access.
+
+## Participant evaluation
+Create a detailed assessment table with these columns:
+- Assessment type
+- Deadline/Date
+- Weighting (%)
+- Group/Individual
+
+Include diverse assessment methods (exams, projects, presentations, participation) with clear weighting. Include detailed descriptions of major assignments. The final exam should be worth 25-30% of the grade.
+
+## Course Sessions
+Create a detailed session-by-session breakdown covering the full duration. For each session include:
+- Session number and date
+- Session topic (bold and descriptive)
+- Required reading (with full citations)
+- Optional reading (with full citations)
+- Study questions or preparation instructions
+- Case studies where applicable
+
+For reading materials, if reference content is limited, research and specify appropriate scholarly textbooks, academic papers, and case studies that align with the course topic. Include author, year, title, publisher/journal, and pages where appropriate.
+
+## Bibliography
+Compile a comprehensive reading list with complete academic citations following a consistent style (APA, MLA, etc.) organized into:
+- Required textbooks
+- Required readings
+- Optional readings
+
+## Academic Integrity and Policies
+Include standard but detailed sections on:
+- Plagiarism declaration
+- Attendance requirements
+- Late submission policies
+- Electronic device usage
+- Participation expectations
+- Accommodation and accessibility
+
+Format the entire syllabus with clean, professional markdown:
+- Use # for main title, ## for sections, ### for subsections
+- Use bold (**text**) for important terms and policies
+- Use tables for structured information (evaluation, schedule)
+- Use consistent indentation for lists
+- Include page breaks (---) between major sections
+
+The final syllabus should be comprehensive (approximately 2,500-3,500 words), academically rigorous, and follow the patterns seen in exemplary business school syllabi.
         `;
         
         const requestBody = {
