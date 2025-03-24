@@ -35,13 +35,32 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="referenceContent">Reference Content (Optional)</label>
-                    <textarea id="referenceContent" placeholder="Paste any additional reference materials, book chapters, or course examples here."></textarea>
+                    <label for="discipline">Academic Discipline</label>
+                    <input type="text" id="discipline" placeholder="Computer Science, MBA, Psychology, etc.">
                 </div>
-
+                
+                <div class="form-group">
+                    <label for="teachingStyle">Teaching Style</label>
+                    <select id="teachingStyle">
+                        <option value="lecture">Lecture-based</option>
+                        <option value="case">Case-based</option>
+                        <option value="discussion">Discussion-oriented</option>
+                        <option value="project">Project-based</option>
+                        <option value="flipped">Flipped Classroom</option>
+                        <option value="hands-on">Hands-on/Lab</option>
+                        <option value="seminar">Seminar/Workshop</option>
+                        <option value="hybrid">Hybrid/Blended</option>
+                    </select>
+                </div>
+                
                 <div class="form-group">
                     <label for="weeksDuration">Duration in Weeks</label>
                     <input type="number" id="weeksDuration" placeholder="Approximate number of weeks">
+                </div>
+                
+                <div class="form-group">
+                    <label for="referenceContent">Reference Content (Optional)</label>
+                    <textarea id="referenceContent" placeholder="Paste any additional reference materials, book chapters, or course examples here."></textarea>
                 </div>
 
                 <div class="form-group">

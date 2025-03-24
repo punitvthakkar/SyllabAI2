@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutLink = document.getElementById('aboutLink');
     const aboutModal = document.getElementById('aboutModal');
     const closeAboutModalBtn = document.getElementById('closeAboutModal');
+    const weeksDurationInput = document.getElementById('weeksDuration');
     
     // Check for dark mode preference
     if (localStorage.getItem('darkMode') === 'enabled') {
@@ -70,12 +71,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const courseName = document.getElementById('courseName').value.trim();
         const courseCode = document.getElementById('courseCode').value.trim();
         const courseDescription = document.getElementById('courseDescription').value.trim();
+        const discipline = document.getElementById('discipline').value.trim();
+        const teachingStyle = document.getElementById('teachingStyle').value;
+        const weeksDuration = weeksDurationInput.value.trim();
         const referenceContent = document.getElementById('referenceContent').value.trim();
         const apiKey = apiKeyInput.value.trim();
         
         // Validate inputs
-        if (!courseName || !courseCode || !courseDescription) {
-            alert('Please fill in the required fields: Course Name, Course Code, and Course Description.');
+        if (!courseName || !courseCode || !courseDescription || !discipline) {
+            alert('Please fill in the required fields: Course Name, Course Code, Course Description, and Discipline.');
+            return;
+        }
+        
+        if (!weeksDuration || weeksDuration <= 0) {
+            alert('Please enter a valid duration in weeks.');
             return;
         }
         
@@ -94,6 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 courseName,
                 courseCode,
                 courseDescription,
+                discipline,
+                teachingStyle,
+                weeksDuration,
                 referenceContent,
                 apiKey
             });
@@ -108,90 +120,137 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    async function callGeminiAPI({ courseName, courseCode, courseDescription, referenceContent, apiKey }) {
+    // Map teaching style values to descriptive text
+    function getTeachingStyleDescription(style) {
+        const styleDescriptions = {
+            'lecture': 'Traditional lecture-based instruction with instructor-led presentations and note-taking.',
+            'case': 'Case-based learning using real-world scenarios and problem-solving exercises.',
+            'discussion': 'Discussion-oriented approach emphasizing student participation and collaborative dialogue.',
+            'project': 'Project-based learning focused on hands-on application and deliverable outcomes.',
+            'flipped': 'Flipped classroom model with pre-class materials and in-class active learning activities.',
+            'hands-on': 'Laboratory or hands-on approach with practical exercises and experiential learning.',
+            'seminar': 'Seminar/workshop format with intensive group discussions and student-led presentations.',
+            'hybrid': 'Hybrid/blended approach combining online and in-person learning activities.'
+        };
+        
+        return styleDescriptions[style] || style;
+    }
+    
+    async function callGeminiAPI({ courseName, courseCode, courseDescription, discipline, teachingStyle, weeksDuration, referenceContent, apiKey }) {
         const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
         
+        const teachingStyleDescription = getTeachingStyleDescription(teachingStyle);
+        
         const prompt = `
-        Generate a comprehensive academic course syllabus in PDF-ready markdown format for:
+        Generate a comprehensive, world-class academic course syllabus in PDF-ready markdown format, adhering to the following specifications:
 
-Course Name: ${courseName}
-Course Code: ${courseCode}
-Course Description: ${courseDescription}
-Duration: ${weeksDuration}
-${referenceContent ? `Reference Content: ${referenceContent}` : ''}
+COURSE DETAILS:
+- Course Name: ${courseName}
+- Course Code: ${courseCode}
+- Course Description: ${courseDescription}
+- Academic Discipline: ${discipline}
+- Teaching Style: ${teachingStyleDescription}
+- Duration: ${weeksDuration} weeks
+${referenceContent ? `- Reference Content: ${referenceContent}` : ''}
 
-Structure your syllabus following the ESMT MBA program format with these specific required elements:
+FORMATTING REQUIREMENTS:
+- Use elegant, academic formatting consistent with top-tier global universities
+- Main title: H1 heading (#) with course name and code
+- Section headings: H2 headings (##)
+- Subsection headings: H3 headings (###)
+- Formatting: Use bold for important terms/policies, italics for emphasis
+- Tables: Use standard markdown tables with clear column headers
+- Create clear visual hierarchy with consistent spacing and organization
+- Include notes on potential color formatting for Word (headings in navy/blue shades)
 
-# ${courseName}
-${courseCode}
+REQUIRED STRUCTURAL ELEMENTS:
 
-[Instructor Name]
-[instructor.email@institution.edu]
+1. COURSE HEADER SECTION
+- Course name and code (main title)
+- Instructor placeholder with bracketed fields for customization
+- Term/semester information
+- Contact information and office hours placeholders
+- Course website/LMS information
 
-**Pre-requisite to this course:** [specify or indicate "none"]
-**This course is a pre-requisite for:** [specify or indicate "none"]
+2. COURSE OVERVIEW (2-3 paragraphs)
+- Begin with a compelling, intellectually stimulating opening quote or statement related to the field
+- Articulate the course's relevance to both the discipline and broader intellectual/professional contexts
+- Explain how the course fits within the program's curriculum
+- Connect course concepts to real-world applications and contemporary challenges
 
-## Purpose of the course
-Expand the provided course description into a compelling 2-3 paragraph introduction that explains why this course matters and how it connects to broader academic/professional contexts. Use an engaging opening quote if appropriate.
+3. COURSE OBJECTIVES AND LEARNING OUTCOMES (5-7 items)
+- Use Bloom's taxonomy action verbs appropriate to the course level
+- Include technical/domain-specific competencies AND transferable skills
+- Ensure objectives are measurable, achievable, and clearly articulated
+- Include both theoretical understanding and practical application components
 
-## Competencies developed
-List 5-7 specific learning objectives using action verbs (analyze, evaluate, create, etc.) that clearly state what students will be able to do upon completing the course. Format as bullet points with clear, measurable outcomes.
+4. TEACHING METHODOLOGY (detailed explanation)
+- Describe pedagogical approach tailored to the specified teaching style (${teachingStyle})
+- Explain rationale for methodology and its appropriateness to learning objectives
+- Detail specific classroom activities and their educational purpose
+- Include approximate time allocations for different activity types
+- Specify any special tools, software, platforms, or resources students will need
 
-## Content
-Provide a detailed 2-3 paragraph overview of the course content, organized into logical themes or modules. Explain how the content builds progressively and connects to the competencies.
+5. ASSESSMENT STRUCTURE (detailed table and descriptions)
+- Create a professional assessment table with columns: Assessment Type, Due Date, Weight (%), Group/Individual
+- Include diverse assessment methods appropriate to the discipline and teaching style
+- Provide detailed descriptions of each assessment component (purpose, format, expectations)
+- Include rubric information or evaluation criteria
+- Balance formative and summative assessments
+- For major assessments, include detailed instructions and success criteria
+- Final exam/project should be 25-30% of total grade
 
-## Teaching methods
-Detail the pedagogical approaches used in the course (lectures, case discussions, simulations, group work, etc.) with approximate time allocations. Specify any special tools, software, or platforms students will need to access.
+6. COURSE SCHEDULE (weekly breakdown)
+- Provide a detailed ${weeksDuration}-week schedule with specific dates/periods
+- For each session/week include:
+  * Topic title (descriptive and engaging)
+  * Session learning objectives (2-3 specific objectives per session)
+  * Required readings with complete academic citations
+  * Optional readings with complete academic citations
+  * Preparation questions or activities
+  * In-class activities
+  * Assignment information where applicable
 
-## Participant evaluation
-Create a detailed assessment table with these columns:
-- Assessment type
-- Deadline/Date
-- Weighting (%)
-- Group/Individual
+7. REQUIRED MATERIALS AND RESOURCES
+- List required textbooks with complete citations
+- List required articles/readings with complete citations
+- Detail any required software, equipment, or subscriptions
+- Specify any required online resources or platforms
 
-Include diverse assessment methods (exams, projects, presentations, participation) with clear weighting. Include detailed descriptions of major assignments. The final exam should be worth 25-30% of the grade.
+8. POLICIES AND EXPECTATIONS
+- Include detailed, institutionally appropriate policies on:
+  * Academic integrity and plagiarism
+  * Attendance and participation
+  * Late submissions and extensions
+  * Technology use in class
+  * Accommodations and accessibility
+  * Communication expectations and response times
+  * Student conduct and classroom environment
 
-## Course Sessions
-Create a detailed session-by-session breakdown covering the full duration. For each session include:
-- Session number and date
-- Session topic (bold and descriptive)
-- Required reading (with full citations)
-- Optional reading (with full citations)
-- Study questions or preparation instructions
-- Case studies where applicable
+9. SUPPORT RESOURCES
+- List academic support services
+- Include mental health and wellbeing resources
+- Mention technical support options
+- Provide career/professional development resources relevant to the course
 
-For reading materials, if reference content is limited, research and specify appropriate scholarly textbooks, academic papers, and case studies that align with the course topic. Include author, year, title, publisher/journal, and pages where appropriate.
+SYLLABUS CREATION GUIDELINES:
 
-## Bibliography
-Compile a comprehensive reading list with complete academic citations following a consistent style (APA, MLA, etc.) organized into:
-- Required textbooks
-- Required readings
-- Optional readings
-
-## Academic Integrity and Policies
-Include standard but detailed sections on:
-- Plagiarism declaration
-- Attendance requirements
-- Late submission policies
-- Electronic device usage
-- Participation expectations
-- Accommodation and accessibility
-
-Use these specific formatting guidelines:
-- Main title: Use a single # (H1) followed by the course name and code
-- Section headings: Use ## (H2) for all major sections
-- Subsection headings: Use ### (H3) for subsections
-- Text formatting: Use bold for important terms and policies, italics for emphasis
-- Lists: Use - for unordered lists and 1. for ordered lists with consistent indentation
-- Tables: Use standard markdown tables with | delimiters for all tabular content
-- Course schedule: Present as a markdown table with columns for Week, Topic, Readings, and Assignments
-- Important notices: Highlight with > blockquotes for emphasis
-- Links: Use [text](URL) format for any external resources
-- Use --- for horizontal rules between major sections
-Include notes at the beginning indicating which elements could be colored when formatted in Word (e.g., "Heading 1 could be formatted in dark blue, Heading 2 in medium blue"). Format the syllabus in clean, consistent markdown that will paste into Microsoft Word and be easily formatted with Word's built-in styling tools. 
-
-The final syllabus should be comprehensive (approximately 2,500-3,500 words), academically rigorous, and follow the patterns seen in exemplary business school syllabi.
+- Create a syllabus that exemplifies the highest standards of the specified academic discipline (${discipline})
+- Ensure content is appropriate for the specified duration (${weeksDuration} weeks)
+- Match depth and rigor to what would be expected at a prestigious institution in this field
+- If reference materials are provided, incorporate them appropriately into readings and content
+- If no reference materials are provided, suggest highly respected, current, and accurate references in the field (NO FICTIONAL SOURCES)
+- Tailor the academic tone and formatting to discipline-specific conventions
+- Include discipline-appropriate terminology, methodologies, and assessment approaches
+- For reading assignments, prioritize seminal works, recent significant contributions, and diverse perspectives
+- Ensure all suggested readings and resources actually exist and are accurately cited
+- Create a coherent progression of topics that builds knowledge systematically
+- Balance theoretical foundations with practical applications
+- Include opportunities for critical thinking, analysis, and synthesis
+- Incorporate current developments and emerging trends in the field
+- Ensure the overall syllabus reflects the teaching style specified (${teachingStyle})
+DON'T WRITE  THE STARTING LINE AS '''markdown AND THEN END THE WHOLE THING WITH ''' TO SHOW MARKDOWN CODING. THE TEXT IS ALREADY WRITTEN IN MARKDOWN, THE LABELS AT TOP AND BOTTOM ARE NOT NEEDED. DO NOT WRITE ANY EXPLANATORY OR OTHER TEXT ABOVE OR BELOW THE ACTUAL SYLLABUS OUTPUT. NO TOKEN WASTAGE APART FROM TASK OUTPUT! YOU CAN NEVER LET ANY PART OF THE CONTENT FILLED WITH A CONTINUATION STATEMENT WITHOUT DOING YOUR WORK, YOU MUST ALWAYS GIVE THE FULL OUTPUT. DON'T SAY "FINISH THE REST OF IT LIKE I HAVE SHOWN" - INSTEAD, DO THE FULL THING.
+The final syllabus should be comprehensive (3,000-4,000 words), intellectually rigorous, and exemplify the highest standards of pedagogical design in the discipline. It should appear as if created by a distinguished professor at a world-renowned institution.
         `;
         
         const requestBody = {
