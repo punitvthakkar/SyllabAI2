@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutModal = document.getElementById('aboutModal');
     const closeAboutModalBtn = document.getElementById('closeAboutModal');
     const weeksDurationInput = document.getElementById('weeksDuration');
-    const modelSelector = document.getElementById('model');
     
     // Check for dark mode preference
     if (localStorage.getItem('darkMode') === 'enabled') {
@@ -23,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Load saved API key if available
-    if (localStorage.getItem('openRouterApiKey')) {
-        apiKeyInput.value = localStorage.getItem('openRouterApiKey');
+    if (localStorage.getItem('geminiApiKey')) {
+        apiKeyInput.value = localStorage.getItem('geminiApiKey');
     }
     
     // Event Listeners
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // API Key input change - save to localStorage
     apiKeyInput.addEventListener('change', () => {
-        localStorage.setItem('openRouterApiKey', apiKeyInput.value);
+        localStorage.setItem('geminiApiKey', apiKeyInput.value);
     });
     
     // Functions
@@ -77,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const weeksDuration = weeksDurationInput.value.trim();
         const referenceContent = document.getElementById('referenceContent').value.trim();
         const apiKey = apiKeyInput.value.trim();
-        const selectedModel = modelSelector ? modelSelector.value : "openai/gpt-4o";
         
         // Validate inputs
         if (!courseName || !courseCode || !courseDescription || !discipline) {
@@ -91,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (!apiKey) {
-            alert('Please enter your OpenRouter API Key.');
+            alert('Please enter your Gemini API Key.');
             return;
         }
         
@@ -101,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         copyBtn.disabled = true;
         
         try {
-            const response = await callOpenRouterAPI({
+            const response = await callGeminiAPI({
                 courseName,
                 courseCode,
                 courseDescription,
@@ -109,8 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 teachingStyle,
                 weeksDuration,
                 referenceContent,
-                apiKey,
-                model: selectedModel
+                apiKey
             });
             
             // Display result
@@ -139,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return styleDescriptions[style] || style;
     }
     
-    async function callOpenRouterAPI({ courseName, courseCode, courseDescription, discipline, teachingStyle, weeksDuration, referenceContent, apiKey, model }) {
-        const apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
+    async function callGeminiAPI({ courseName, courseCode, courseDescription, discipline, teachingStyle, weeksDuration, referenceContent, apiKey }) {
+        const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
         
         const teachingStyleDescription = getTeachingStyleDescription(teachingStyle);
         
@@ -258,33 +255,25 @@ DON'T WRITE  THE STARTING LINE AS '''markdown AND THEN END THE WHOLE THING WITH 
 The final syllabus should be comprehensive (3,000-4,000 words), intellectually rigorous, and exemplify the highest standards of pedagogical design in the discipline. It should appear as if created by a distinguished professor at a world-renowned institution.
         `;
         
-        // Configure request body based on the selected model
         const requestBody = {
-            model: model,
-            messages: [
+            contents: [
                 {
-                    role: "user",
-                    content: prompt
+                    parts: [
+                        { text: prompt }
+                    ]
                 }
             ],
-            temperature: 1.0,
-            max_tokens: 8192
+            generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 8192,
+            }
         };
         
-        // If using Deepseek model, adjust any specific parameters if needed
-        if (model.includes('deepseek')) {
-            // No specific adjustments needed currently, but this is where you could add them
-            console.log('Using Deepseek model:', model);
-        }
-        
         try {
-            const response = await fetch(apiUrl, {
+            const response = await fetch(`${apiUrl}?key=${apiKey}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`,
-                    'HTTP-Referer': window.location.href, // Current site URL
-                    'X-Title': 'Syllabus Generator App' // App name
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(requestBody)
             });
@@ -296,13 +285,20 @@ The final syllabus should be comprehensive (3,000-4,000 words), intellectually r
             
             const data = await response.json();
             
-            if (!data.choices || data.choices.length === 0) {
+            if (!data.candidates || data.candidates.length === 0) {
                 throw new Error('No response generated. Please try again.');
             }
             
             // Extract the text content from the response
-            return data.choices[0].message.content;
+            let textContent = '';
             
+            data.candidates[0].content.parts.forEach(part => {
+                if (part.text) {
+                    textContent += part.text;
+                }
+            });
+            
+            return textContent;
         } catch (error) {
             console.error('API Error:', error);
             throw error;
