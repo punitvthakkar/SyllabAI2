@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutModal = document.getElementById('aboutModal');
     const closeAboutModalBtn = document.getElementById('closeAboutModal');
     const weeksDurationInput = document.getElementById('weeksDuration');
+    const modelSelector = document.getElementById('model');
     
     // Check for dark mode preference
     if (localStorage.getItem('darkMode') === 'enabled') {
@@ -22,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Load saved API key if available
-    if (localStorage.getItem('geminiApiKey')) {
-        apiKeyInput.value = localStorage.getItem('geminiApiKey');
+    if (localStorage.getItem('openRouterApiKey')) {
+        apiKeyInput.value = localStorage.getItem('openRouterApiKey');
     }
     
     // Event Listeners
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // API Key input change - save to localStorage
     apiKeyInput.addEventListener('change', () => {
-        localStorage.setItem('geminiApiKey', apiKeyInput.value);
+        localStorage.setItem('openRouterApiKey', apiKeyInput.value);
     });
     
     // Functions
@@ -76,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const weeksDuration = weeksDurationInput.value.trim();
         const referenceContent = document.getElementById('referenceContent').value.trim();
         const apiKey = apiKeyInput.value.trim();
+        const selectedModel = modelSelector ? modelSelector.value : "openai/gpt-4o";
         
         // Validate inputs
         if (!courseName || !courseCode || !courseDescription || !discipline) {
@@ -89,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (!apiKey) {
-            alert('Please enter your Gemini API Key.');
+            alert('Please enter your OpenRouter API Key.');
             return;
         }
         
@@ -99,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         copyBtn.disabled = true;
         
         try {
-            const response = await callGeminiAPI({
+            const response = await callOpenRouterAPI({
                 courseName,
                 courseCode,
                 courseDescription,
@@ -107,7 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 teachingStyle,
                 weeksDuration,
                 referenceContent,
-                apiKey
+                apiKey,
+                model: selectedModel
             });
             
             // Display result
@@ -136,8 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return styleDescriptions[style] || style;
     }
     
-    async function callGeminiAPI({ courseName, courseCode, courseDescription, discipline, teachingStyle, weeksDuration, referenceContent, apiKey }) {
-        const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
+    async function callOpenRouterAPI({ courseName, courseCode, courseDescription, discipline, teachingStyle, weeksDuration, referenceContent, apiKey, model }) {
+        const apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
         
         const teachingStyleDescription = getTeachingStyleDescription(teachingStyle);
         
@@ -256,24 +259,25 @@ The final syllabus should be comprehensive (3,000-4,000 words), intellectually r
         `;
         
         const requestBody = {
-            contents: [
+            model: model,
+            messages: [
                 {
-                    parts: [
-                        { text: prompt }
-                    ]
+                    role: "user",
+                    content: prompt
                 }
             ],
-            generationConfig: {
-                temperature: 0.7,
-                maxOutputTokens: 8192,
-            }
+            temperature: 1.0,
+            max_tokens: 8192
         };
         
         try {
-            const response = await fetch(`${apiUrl}?key=${apiKey}`, {
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`,
+                    'HTTP-Referer': window.location.href, // Current site URL
+                    'X-Title': 'Syllabus Generator App' // App name
                 },
                 body: JSON.stringify(requestBody)
             });
@@ -285,20 +289,13 @@ The final syllabus should be comprehensive (3,000-4,000 words), intellectually r
             
             const data = await response.json();
             
-            if (!data.candidates || data.candidates.length === 0) {
+            if (!data.choices || data.choices.length === 0) {
                 throw new Error('No response generated. Please try again.');
             }
             
             // Extract the text content from the response
-            let textContent = '';
+            return data.choices[0].message.content;
             
-            data.candidates[0].content.parts.forEach(part => {
-                if (part.text) {
-                    textContent += part.text;
-                }
-            });
-            
-            return textContent;
         } catch (error) {
             console.error('API Error:', error);
             throw error;
