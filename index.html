@@ -54,6 +54,19 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="model">AI Model</label>
+                    <select id="model">
+                        <option value="openai/gpt-4o">GPT-4o</option>
+                        <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+                        <option value="anthropic/claude-3-opus">Claude 3 Opus</option>
+                        <option value="anthropic/claude-3-sonnet">Claude 3 Sonnet</option>
+                        <option value="anthropic/claude-3-haiku">Claude 3 Haiku</option>
+                        <option value="google/gemini-1.5-pro">Gemini 1.5 Pro</option>
+                        <option value="meta-llama/llama-3-70b-instruct">Llama 3 70B</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
                     <label for="weeksDuration">Duration in Weeks</label>
                     <input type="number" id="weeksDuration" placeholder="Approximate number of weeks">
                 </div>
@@ -64,14 +77,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="apiKey">Gemini API Key</label>
+                    <label for="apiKey">OpenRouter API Key</label>
                     <div class="api-key-container">
-                        <input type="password" id="apiKey" placeholder="Enter your Gemini API Key">
+                        <input type="password" id="apiKey" placeholder="Enter your OpenRouter API Key">
                         <button id="toggleApiKey" class="toggle-visibility">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
-                    <small>Your API key is stored locally and never sent to any server except Google's API.</small>
+                    <small>Your API key is stored locally and never sent to any server except OpenRouter's API.</small>
                 </div>
                 
                 <button id="generateBtn" class="primary-btn">Generate Syllabus</button>
@@ -112,7 +125,8 @@
             <h3>About SyllabAI</h3>
             <p>SyllabAI is a lightweight tool that helps educators create course syllabi quickly using AI.</p>
             <p>This application runs entirely in your browser - no data is stored on any server.</p>
-            <p>To use SyllabAI, you'll need a <a href="https://ai.google.dev/" target="_blank">Gemini API key</a>.</p>
+            <p>To use SyllabAI, you'll need an <a href="https://openrouter.ai/" target="_blank">OpenRouter API key</a>.</p>
+            <p>OpenRouter allows you to access various AI models including GPT-4o, Claude, Gemini, and more.</p>
             <button id="closeAboutModal" class="primary-btn">Close</button>
         </div>
     </div>
