@@ -162,6 +162,7 @@ FORMATTING REQUIREMENTS:
 - Tables: Use standard markdown tables with clear column headers
 - Create clear visual hierarchy with consistent spacing and organization
 - Include notes on potential color formatting for Word (headings in navy/blue shades)
+- Write in a style and approach that aligns with the specified teaching style (${teachingStyle})
 
 REQUIRED STRUCTURAL ELEMENTS:
 
@@ -172,8 +173,8 @@ REQUIRED STRUCTURAL ELEMENTS:
 - Contact information and office hours placeholders
 - Course website/LMS information
 
-2. COURSE OVERVIEW (2-3 paragraphs)
-- Begin with a compelling, intellectually stimulating opening quote or statement related to the field
+2. COURSE OVERVIEW (2 paragraphs)
+- Begin with a compelling, intellectually stimulating opening quote or statement related to the field, and give a brief description of the author / speaker of that quote as it relates to the subject field.
 - Articulate the course's relevance to both the discipline and broader intellectual/professional contexts
 - Explain how the course fits within the program's curriculum
 - Connect course concepts to real-world applications and contemporary challenges
@@ -201,15 +202,16 @@ REQUIRED STRUCTURAL ELEMENTS:
 - Final exam/project should be 25-30% of total grade
 
 6. COURSE SCHEDULE (weekly breakdown)
-- Provide a detailed ${weeksDuration}-week schedule with specific dates/periods
+- Provide a tabulated, detailed ${weeksDuration}-week schedule with specific dates/periods
 - For each session/week include:
   * Topic title (descriptive and engaging)
-  * Session learning objectives (2-3 specific objectives per session)
-  * Required readings with complete academic citations
-  * Optional readings with complete academic citations
+  * Session learning objectives (2-3 specific, sharp objectives per session)
+  * Session takeaways in a paragraph
+  * Name all required readings with complete academic citations
+  * Name all optional readings with complete academic citations
   * Preparation questions or activities
   * In-class activities
-  * Assignment information where applicable
+  * Name and details of Assignments to be completed post-session
 
 7. REQUIRED MATERIALS AND RESOURCES
 - List required textbooks with complete citations
@@ -237,7 +239,7 @@ SYLLABUS CREATION GUIDELINES:
 
 - Create a syllabus that exemplifies the highest standards of the specified academic discipline (${discipline})
 - Ensure content is appropriate for the specified duration (${weeksDuration} weeks)
-- Match depth and rigor to what would be expected at a prestigious institution in this field
+- Match depth and rigor to what would be expected at an Ivy League institution in this field
 - If reference materials are provided, incorporate them appropriately into readings and content
 - If no reference materials are provided, suggest highly respected, current, and accurate references in the field (NO FICTIONAL SOURCES)
 - Tailor the academic tone and formatting to discipline-specific conventions
