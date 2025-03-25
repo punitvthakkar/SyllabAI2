@@ -258,6 +258,7 @@ DON'T WRITE  THE STARTING LINE AS '''markdown AND THEN END THE WHOLE THING WITH 
 The final syllabus should be comprehensive (3,000-4,000 words), intellectually rigorous, and exemplify the highest standards of pedagogical design in the discipline. It should appear as if created by a distinguished professor at a world-renowned institution.
         `;
         
+        // Configure request body based on the selected model
         const requestBody = {
             model: model,
             messages: [
@@ -269,6 +270,12 @@ The final syllabus should be comprehensive (3,000-4,000 words), intellectually r
             temperature: 1.0,
             max_tokens: 8192
         };
+        
+        // If using Deepseek model, adjust any specific parameters if needed
+        if (model.includes('deepseek')) {
+            // No specific adjustments needed currently, but this is where you could add them
+            console.log('Using Deepseek model:', model);
+        }
         
         try {
             const response = await fetch(apiUrl, {
