@@ -123,14 +123,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Map teaching style values to descriptive text
     function getTeachingStyleDescription(style) {
         const styleDescriptions = {
-            'lecture': 'Traditional lecture-based instruction with instructor-led presentations and note-taking.',
-            'case': 'Case-based learning using real-world scenarios and problem-solving exercises.',
-            'discussion': 'Discussion-oriented approach emphasizing student participation and collaborative dialogue.',
-            'project': 'Project-based learning focused on hands-on application and deliverable outcomes.',
-            'flipped': 'Flipped classroom model with pre-class materials and in-class active learning activities.',
-            'hands-on': 'Laboratory or hands-on approach with practical exercises and experiential learning.',
-            'seminar': 'Seminar/workshop format with intensive group discussions and student-led presentations.',
-            'hybrid': 'Hybrid/blended approach combining online and in-person learning activities.'
+            'lecture': 'Instructor delivers structured content through formal presentations while students take notes. Relies on clear explanations of concepts, organized visuals, and occasional student questions. Best for introducing foundational knowledge and theoretical frameworks to larger groups.',
+            'case': 'Students analyze authentic scenarios to apply theoretical concepts to practical situations. Instructor facilitates critical analysis through guided questioning and structured frameworks. Develops problem-solving abilities, critical thinking, and professional judgment through realistic contextual learning.'
+            'discussion': 'Instructor poses thought-provoking questions and moderates exchanges between students. Requires preparation of discussion prompts, strategic facilitation techniques, and clear expectations for participation. Builds critical thinking, communication skills, and diverse perspective appreciation.',
+            'project': 'Students work individually or collaboratively on complex tasks resulting in tangible outcomes. Instructor provides initial guidance, milestone check-ins, and assessment rubrics. Develops practical skills, time management, and real-world application through sustained engagement with authentic challenges.',
+            'flipped': 'Students engage with content independently before class (videos, readings) then participate in interactive activities during class time. Requires careful curation of pre-class materials and well-designed in-class application exercises. Maximizes face-to-face time for higher-order thinking and personalized guidance.',
+            'hands-on': 'Students learn through direct manipulation of objects, tools, or processes in specialized environments. Instructor demonstrates techniques, supervises practice, and provides immediate feedback. Develops procedural knowledge, technical skills, and experiential understanding through structured practice.',
+            'seminar': 'Students lead substantial portions of instruction through prepared presentations and facilitated discussions of advanced topics. Instructor establishes intellectual framework, provides expert guidance, and ensures scholarly rigor. Develops deep subject mastery, research skills, and professional discourse abilities.',
+            'hybrid': 'Learning occurs through deliberate integration of online and in-person components with clear purpose for each modality. Requires thoughtful technology selection, seamless transitions between environments, and consistent engagement across platforms. Combines flexibility of digital learning with richness of face-to-face interaction.'
         };
         
         return styleDescriptions[style] || style;
@@ -264,8 +264,8 @@ The final syllabus should be comprehensive (3,000-4,000 words), intellectually r
                 }
             ],
             generationConfig: {
-                temperature: 0.7,
-                maxOutputTokens: 8192,
+                temperature: 1.0,
+                maxOutputTokens: 20000,
             }
         };
         
