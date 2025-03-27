@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     async function callGeminiAPI({ courseName, courseCode, courseDescription, discipline, teachingStyle, weeksDuration, referenceContent, apiKey }) {
-        const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
+        const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent';
         
         const teachingStyleDescription = getTeachingStyleDescription(teachingStyle);
         
