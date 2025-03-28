@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTeachingStyleDescription(style) {
         const styleDescriptions = {
             'lecture': 'Instructor delivers structured content through formal presentations while students take notes. Relies on clear explanations of concepts, organized visuals, and occasional student questions. Best for introducing foundational knowledge and theoretical frameworks to larger groups.',
-            'case': 'Students analyze authentic scenarios to apply theoretical concepts to practical situations. Instructor facilitates critical analysis through guided questioning and structured frameworks. Develops problem-solving abilities, critical thinking, and professional judgment through realistic contextual learning.'
+            'case': 'Students analyze authentic scenarios to apply theoretical concepts to practical situations. Instructor facilitates critical analysis through guided questioning and structured frameworks. Develops problem-solving abilities, critical thinking, and professional judgment through realistic contextual learning.',
             'discussion': 'Instructor poses thought-provoking questions and moderates exchanges between students. Requires preparation of discussion prompts, strategic facilitation techniques, and clear expectations for participation. Builds critical thinking, communication skills, and diverse perspective appreciation.',
             'project': 'Students work individually or collaboratively on complex tasks resulting in tangible outcomes. Instructor provides initial guidance, milestone check-ins, and assessment rubrics. Develops practical skills, time management, and real-world application through sustained engagement with authentic challenges.',
             'flipped': 'Students engage with content independently before class (videos, readings) then participate in interactive activities during class time. Requires careful curation of pre-class materials and well-designed in-class application exercises. Maximizes face-to-face time for higher-order thinking and personalized guidance.',
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     async function callGeminiAPI({ courseName, courseCode, courseDescription, discipline, teachingStyle, weeksDuration, referenceContent, apiKey }) {
-        const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent';
+        const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-exp-03-25:generateContent';
         
         const teachingStyleDescription = getTeachingStyleDescription(teachingStyle);
         
