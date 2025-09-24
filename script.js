@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             // Display result
-            outputElement.innerHTML = response;
+            outputElement.innerHTML = marked.parse(response);
             copyBtn.disabled = false;
         } catch (error) {
             outputElement.innerHTML = `<div class="error">Error: ${error.message}</div>`;
