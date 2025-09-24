@@ -227,9 +227,62 @@ button {
 }
 
 .output {
-    white-space: pre-wrap;
     font-family: var(--font-family);
     line-height: 1.6;
+}
+
+.output h1 {
+    font-size: 1.8rem;
+    margin: 20px 0 15px 0;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.output h2 {
+    font-size: 1.4rem;
+    margin: 20px 0 10px 0;
+    color: var(--accent-color);
+}
+
+.output h3 {
+    font-size: 1.2rem;
+    margin: 15px 0 8px 0;
+}
+
+.output table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.output th,
+.output td {
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.output th {
+    background-color: var(--border-color);
+    font-weight: bold;
+}
+
+.output ul,
+.output ol {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+.output p {
+    margin: 10px 0;
+}
+
+.output strong {
+    font-weight: bold;
+}
+
+.output em {
+    font-style: italic;
 }
 
 /* Loading spinner */
