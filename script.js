@@ -141,119 +141,86 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const teachingStyleDescription = getTeachingStyleDescription(teachingStyle);
         
-        const prompt = `
-        Generate a comprehensive, world-class academic course syllabus in PDF-ready markdown format, adhering to the following specifications:
+       const prompt = `
+Generate a professional course syllabus using the following information:
 
 COURSE DETAILS:
 - Course Name: ${courseName}
 - Course Code: ${courseCode}
 - Course Description: ${courseDescription}
 - Academic Discipline: ${discipline}
-- Teaching Style: ${teachingStyleDescription}
+- Teaching Style: ${teachingStyle}
 - Duration: ${weeksDuration} weeks
 ${referenceContent ? `- Reference Content: ${referenceContent}` : ''}
 
-FORMATTING REQUIREMENTS:
-- Use elegant, academic formatting consistent with top-tier global universities
-- Main title: H1 heading (#) with course name and code
-- Section headings: H2 headings (##)
-- Subsection headings: H3 headings (###)
-- Formatting: Use bold for important terms/policies, italics for emphasis
-- Tables: Use standard markdown tables with clear column headers
-- Create clear visual hierarchy with consistent spacing and organization
-- Include notes on potential color formatting for Word (headings in navy/blue shades)
-- Write in a style and approach that aligns with the specified teaching style (${teachingStyle})
+REQUIRED SECTIONS:
 
-REQUIRED STRUCTURAL ELEMENTS:
+1. COURSE HEADER
+- Course name and code as main title
+- Instructor: [Name], [Title]
+- Email: [email@institution.edu]
+- Office Hours: [Day/Time] or by appointment
+- Course Website: [URL]
 
-1. COURSE HEADER SECTION
-- Course name and code (main title)
-- Instructor placeholder with bracketed fields for customization
-- Term/semester information
-- Contact information and office hours placeholders
-- Course website/LMS information
+2. PURPOSE OF THE COURSE
+Write 1-2 paragraphs explaining:
+- What the course covers and why it matters
+- How it fits within the broader curriculum
+- Key skills or knowledge students will gain
 
-2. COURSE OVERVIEW (2 paragraphs)
-- Begin with a compelling, intellectually stimulating opening quote or statement related to the field, and give a brief description of the author / speaker of that quote as it relates to the subject field.
-- Articulate the course's relevance to both the discipline and broader intellectual/professional contexts
-- Explain how the course fits within the program's curriculum
-- Connect course concepts to real-world applications and contemporary challenges
+3. LEARNING OBJECTIVES
+List 4-6 clear, measurable learning objectives using action verbs (analyze, create, evaluate, etc.). Focus on what students will actually be able to do after completing the course.
 
-3. COURSE OBJECTIVES AND LEARNING OUTCOMES (5-7 items)
-- Use Bloom's taxonomy action verbs appropriate to the course level
-- Include technical/domain-specific competencies AND transferable skills
-- Ensure objectives are measurable, achievable, and clearly articulated
-- Include both theoretical understanding and practical application components
+4. TEACHING METHODS
+Describe the pedagogical approach based on the ${teachingStyle} teaching style. Explain what a typical class session looks like and any special requirements (software, equipment, etc.).
 
-4. TEACHING METHODOLOGY (detailed explanation)
-- Describe pedagogical approach tailored to the specified teaching style (${teachingStyle})
-- Explain rationale for methodology and its appropriateness to learning objectives
-- Detail specific classroom activities and their educational purpose
-- Include approximate time allocations for different activity types
-- Specify any special tools, software, platforms, or resources students will need
+5. ASSESSMENT AND GRADING
+Create a simple table showing:
+- Assessment Type | Weight | Description
+Include 3-5 different assessment methods with percentages that add to 100%. Briefly describe each assessment type.
 
-5. ASSESSMENT STRUCTURE (detailed table and descriptions)
-- Create a professional assessment table with columns: Assessment Type, Due Date, Weight (%), Group/Individual
-- Include diverse assessment methods appropriate to the discipline and teaching style
-- Provide detailed descriptions of each assessment component (purpose, format, expectations)
-- Include rubric information or evaluation criteria
-- Balance formative and summative assessments
-- For major assessments, include detailed instructions and success criteria
-- Final exam/project should be 25-30% of total grade
+6. COURSE SESSIONS
+Create a ${weeksDuration}-session schedule using this format:
 
-6. COURSE SCHEDULE (weekly breakdown)
-- Provide a tabulated, detailed ${weeksDuration}-week schedule with specific dates/periods
-- For each session/week include:
-  * Topic title (descriptive and engaging)
-  * Session learning objectives (2-3 specific, sharp objectives per session)
-  * Session takeaways in a paragraph
-  * Name all required readings with complete academic citations
-  * Name all optional readings with complete academic citations
-  * Preparation questions or activities
-  * In-class activities
-  * Name and details of Assignments to be completed post-session
+Sessions X & Y
+[Day], [Date], [Time]
+Session Topic: [Descriptive title]
+[Brief 2-3 sentence description of what will be covered]
+Required Reading: [List 1-3 key readings - use realistic textbook chapters or representative articles for the field]
+Optional Reading: [1-2 additional sources if relevant]
 
-7. REQUIRED MATERIALS AND RESOURCES
-- List required textbooks with complete citations
-- List required articles/readings with complete citations
-- Detail any required software, equipment, or subscriptions
-- Specify any required online resources or platforms
+Repeat this format for each session, ensuring logical progression of topics.
 
-8. POLICIES AND EXPECTATIONS
-- Include detailed, institutionally appropriate policies on:
-  * Academic integrity and plagiarism
-  * Attendance and participation
-  * Late submissions and extensions
-  * Technology use in class
-  * Accommodations and accessibility
-  * Communication expectations and response times
-  * Student conduct and classroom environment
+7. REQUIRED MATERIALS
+- List primary textbook(s) with basic citation format
+- Mention any required software, equipment, or online resources
+- Include typical cost estimates where relevant
 
-9. SUPPORT RESOURCES
-- List academic support services
-- Include mental health and wellbeing resources
-- Mention technical support options
-- Provide career/professional development resources relevant to the course
+8. COURSE POLICIES
+Include standard policies for:
+- Attendance and participation expectations
+- Late assignment policy  
+- Academic integrity
+- Accommodations for students with disabilities
+- Communication expectations
 
-SYLLABUS CREATION GUIDELINES:
+FORMATTING:
+- Use clean, simple markdown formatting
+- Make section headers bold (**Section Name**)
+- Use tables for schedules and assessments
+- Keep professional, accessible tone
+- Target length: 1,500-2,000 words
 
-- Create a syllabus that exemplifies the highest standards of the specified academic discipline (${discipline})
-- Ensure content is appropriate for the specified duration (${weeksDuration} weeks)
-- Match depth and rigor to what would be expected at an Ivy League institution in this field
-- If reference materials are provided, incorporate them appropriately into readings and content
-- If no reference materials are provided, suggest highly respected, current, and accurate references in the field (NO FICTIONAL SOURCES)
-- Tailor the academic tone and formatting to discipline-specific conventions
-- Include discipline-appropriate terminology, methodologies, and assessment approaches
-- For reading assignments, prioritize seminal works, recent significant contributions, and diverse perspectives
-- Ensure all suggested readings and resources actually exist and are accurately cited
-- Create a coherent progression of topics that builds knowledge systematically
-- Balance theoretical foundations with practical applications
-- Include opportunities for critical thinking, analysis, and synthesis
-- Incorporate current developments and emerging trends in the field
-- Ensure the overall syllabus reflects the teaching style specified (${teachingStyle})
-DON'T WRITE  THE STARTING LINE AS '''markdown AND THEN END THE WHOLE THING WITH ''' TO SHOW MARKDOWN CODING. THE TEXT IS ALREADY WRITTEN IN MARKDOWN, THE LABELS AT TOP AND BOTTOM ARE NOT NEEDED. DO NOT WRITE ANY EXPLANATORY OR OTHER TEXT ABOVE OR BELOW THE ACTUAL SYLLABUS OUTPUT. NO TOKEN WASTAGE APART FROM TASK OUTPUT! YOU CAN NEVER LET ANY PART OF THE CONTENT FILLED WITH A CONTINUATION STATEMENT WITHOUT DOING YOUR WORK, YOU MUST ALWAYS GIVE THE FULL OUTPUT. DON'T SAY "FINISH THE REST OF IT LIKE I HAVE SHOWN" - INSTEAD, DO THE FULL THING.
-The final syllabus should be comprehensive (3,000-4,000 words), intellectually rigorous, and exemplify the highest standards of pedagogical design in the discipline. It should appear as if created by a distinguished professor at a world-renowned institution.
-        `;
+CONTENT GUIDELINES:
+- Make content appropriate for ${discipline} at the specified academic level
+- Ensure session topics build logically from foundational to advanced concepts
+- For readings, use realistic examples (major textbooks, well-known journals in the field)
+- If you're unsure about specific sources, use format like "Representative textbook: [Course Topic] by [Author]"
+- Balance theoretical knowledge with practical application
+- Reflect the ${teachingStyle} approach naturally throughout
+
+Create a practical, professional syllabus that serves as a clear roadmap for students and instructors. Focus on clarity and usability over elaborate formatting.
+`;
         
         const requestBody = {
             contents: [
